@@ -22,7 +22,7 @@ function RepMsgObj(reply_token) {
   this.url  = 'https://api.line.me/v2/bot/message/reply';
   this.messages = [];
   
-  this.appendMessages = function(type, text) {
+  this.appendMessage = function(type, text) {
     this.messages.push({
       'type': type,
       'text': text,
