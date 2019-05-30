@@ -1,10 +1,11 @@
 var UnknownHandler =　function() {
   this.handler; // The calling handler must be instantiated
   this.name;    // The calling handler must update with own name
-  this.messages = ["ご送信いただいた内容から、どのようにご案内すべきかわかりませんでした。\n"];
+  this.messages = ["ご連絡の内容から適切なご案内を見つけられませんでした。"];
 
   this.reply = function(reply_token) {
-    this.handler.messages[0] = this.messages[0] + this.handler.messages[0];
+    this.handler.messages = this.messages.concat(this.handler.messages);
+//    this.handler.messages[0] = this.messages[0] + this.handler.messages[0];
     this.handler.reply(reply_token);
   };
 
@@ -16,7 +17,7 @@ var UnknownHandler =　function() {
 var HelpHandler =　function() {
   this.handler; // The calling handler must be instantiated
   this.name;    // The calling handler must update with own name
-  this.messages = ["ヘルプを表示します。\n"];
+  this.messages = ["ヘルプを表示します。"];
 
   this.reply = function(reply_token) {
     this.handler.messages = this.messages.concat(this.handler.messages);
@@ -31,14 +32,14 @@ var HelpHandler =　function() {
 var TopMenuHandler =　function() {
   this.handler;
   this.name = "TopMenuHandler";
-  this.messages = ["ただいま、トップメニューです。\nキーまたはメニュー名を１つご入力の上、メッセージを送信ください。\n"];
+  this.messages = ["ただいま、トップメニューです。\n以下より１つご入力の上、メッセージを送信ください。\n"];
   this.messages[0] += "  1　:　サブメニュー1\n";
   this.messages[0] += "  2　:　Wiki検索\n";
-  this.messages[0] += "  ?　:　ヘルプ\n";
+  this.messages[0] += "  ?　:　ヘルプ";
   this.help = ["トップメニューのヘルプです\n"];
   this.help[0] += "  1　:　サブメニュー1\n";
   this.help[0] += "  2　:　Wiki検索\n";
-  this.help[0] += "  ?　:　ヘルプ\n";
+  this.help[0] += "  ?　:　ヘルプ";
 
   this.reply = function(reply_token) {
     var repMsgObj = new RepMsgObj(reply_token);
@@ -75,12 +76,12 @@ var TopMenuHandler =　function() {
 var SubMenu1Handler =　function() {
   this.handler;
   this.name = "SubMenu1Handler";
-  this.messages = ["ただいま、サブメニュー1です。\nキーまたはメニュー名を１つご入力の上、メッセージを送信ください。\n"];
+  this.messages = ["ただいま、サブメニュー1です。\n以下より１つご入力の上、メッセージを送信ください。\n"];
   this.messages[0] += "  0　:　戻る\n";
-  this.messages[0] += "  ?　:　ヘルプ\n";
+  this.messages[0] += "  ?　:　ヘルプ";
   this.help = ["サブメニュー1のヘルプです\n"];
   this.help[0] += "  0　:　戻る\n";
-  this.help[0] += "  ?　:　ヘルプ\n";
+  this.help[0] += "  ?　:　ヘルプ";
 
   this.reply = function(reply_token) {
     var repMsgObj = new RepMsgObj(reply_token);
@@ -116,12 +117,12 @@ var SubMenu1Handler =　function() {
 var WikiHandler =　function() {
   this.handler;
   this.name = "WikiHandler";
-  this.messages = ["ただいま、Wikipedia検索です。\n検索ワードを１つご入力の上、メッセージを送信ください。\n"];
+  this.messages = ["ただいま、Wikipedia検索です。\n検索ワード、または以下のメニューから１つご入力の上、メッセージを送信ください。\n"];
   this.messages[0] += "  0　:　戻る\n";
-  this.messages[0] += "  ?　:　ヘルプ\n";
+  this.messages[0] += "  ?　:　ヘルプ";
   this.help = ["Wikipedia検索のヘルプです\n"];
   this.help[0] += "  0　:　戻る\n";
-  this.help[0] += "  ?　:　ヘルプ\n";
+  this.help[0] += "  ?　:　ヘルプ";
 
   this.reply = function(reply_token) {
     var repMsgObj = new RepMsgObj(reply_token);
@@ -191,6 +192,9 @@ var WikiHandler =　function() {
 
     var repMsgObj = new RepMsgObj(reply_token);
     repMsgObj.appendMessage('text', repMsg);
+    this.messages.forEach(function(msg){
+      repMsgObj.appendMessage('text', msg);
+    });
     repMsgObj.reply();
   };
     
