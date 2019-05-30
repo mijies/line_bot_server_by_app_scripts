@@ -6,6 +6,9 @@ function doPost(e) {
   if (typeof reply_token === 'undefined') return;
 
   var user_id = JSON.parse(e.postData.contents).events[0].source.userId;
+  
+  // !! event type check to be implemented here
+  // !! message type check to be implemented here
   var user_message = JSON.parse(e.postData.contents).events[0].message.text;
   
   var sess = new SessionOnSpreadSheet(user_id);
